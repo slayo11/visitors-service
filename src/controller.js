@@ -17,7 +17,7 @@ class VisitorsController {
     fastify.get('/status', (req, reply) => {
       reply.send({ msg: 'This is visitors service!' });
     });
-    fastify.get('/logs', async (req, reply) => {
+    fastify.get('/visitors', async (req, reply) => {
       const { payload, statusCode } = await this._visitorSvc.getInfo();
       reply.code(statusCode).send(payload);
     });
