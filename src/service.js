@@ -4,7 +4,7 @@ class VisitorsCounter {
   constructor(opts, logger) {
     this._opts = opts;
     this._logger = logger;
-    this._redisClient = redis.createClient();
+    this._redisClient = redis.createClient({ ...opts.redis });
 
     this._redisClient.on('error', (err) => logger.error('Redis Client Error', err));
   }
