@@ -1,5 +1,9 @@
 ## Simple REST service for counting visitors
 
+This service uses HyperLogLog algorithm (HLL) to solve the count-distinct problem, reducing memory usage for large sets at the cost of
+approximating the number of count with a certain accuracy.
+Specifically, the redis implementation of HLL is used, which states an accuracy greater than 99%. [ref](https://redis.io/commands/PFCOUNT)
+
 ### Requirements
 
 - node >= 14
