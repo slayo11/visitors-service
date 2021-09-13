@@ -8,7 +8,22 @@
 
 ### Running
 
+To run the service with a dockerized redis instance:
+
 ```shell
-npm install
-npm start
+./run.sh
+```
+
+To stop redis-instance, run:
+
+```shell
+./stop.sh
+```
+
+### Testing
+
+To perform test, run:
+
+```shell
+./test.sh
 ```
