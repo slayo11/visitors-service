@@ -4,6 +4,7 @@
 
 - node >= 14
 - npm >= 16
+- docker engine >= 20
 
 ### Running
 

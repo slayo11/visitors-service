@@ -14,7 +14,7 @@ class Server {
       logger: true,
     });
 
-    this._visitorCtrl = new VisitorsController(opts);
+    this._visitorCtrl = new VisitorsController(opts, this._fastify.log);
   }
 
   async start() {
@@ -27,7 +27,8 @@ class Server {
       : `http://localhost:${restOpts.port}`;
 
     this._fastify.register(fastifyCors, { origin: allowedOrigins });
-    this._fastify.register(this._visitorCtrl.registerRoutes.bind(this));
+    await this._visitorCtrl.start();
+    this._fastify.register(this._visitorCtrl.registerRoutes.bind(this._visitorCtrl));
     await this._fastify.listen(port, '0.0.0.0');
   }
 }

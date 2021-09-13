@@ -11,6 +11,7 @@ const server = new Server(conf);
     await server.start();
     logger.info('Server started');
   } catch (err) {
-    logger.error('An error occurred: terminating...');
+    logger.error({ err }, 'An error occurred: terminating...');
+    process.exit(1);
   }
 })();

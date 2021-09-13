@@ -14,7 +14,8 @@
   "dependencies": {
     "fastify": "^3.21.0",
     "fastify-cors": "^6.0.2",
-    "pino": "^6.13.2"
+    "pino": "^6.13.2",
+    "redis": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
