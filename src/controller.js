@@ -18,10 +18,12 @@ class VisitorsController {
       reply.send({ msg: 'This is visitors service!' });
     });
     fastify.get('/logs', async (req, reply) => {
-      await this._visitorSvc.getInfo(req, reply);
+      const { payload, statusCode } = await this._visitorSvc.getInfo();
+      reply.code(statusCode).send(payload);
     });
     fastify.post('/logs', async (req, reply) => {
-      await this._visitorSvc.updateCount(req, reply);
+      const { payload, statusCode } = await this._visitorSvc.updateCount(req.body);
+      reply.code(statusCode).send(payload);
     });
   }
 }
