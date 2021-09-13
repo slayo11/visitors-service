@@ -1,8 +1,9 @@
 const redis = require('redis');
 
 class VisitorsCounter {
-  constructor(opts, logger) {
+  constructor(opts, logger, hllName = 'unique-visitors') {
     this._opts = opts;
+    this._hllName = hllName;
     this._logger = logger;
     this._redisClient = redis.createClient({ ...opts.redis });
 
@@ -14,6 +15,17 @@ class VisitorsCounter {
     this._logger.info('Connected to REDIS');
   }
 
+  async stop() {
+    try {
+      await this._redisClient.quit();
+    } catch (err) {
+      this._logger.error('An error occurred while closing redis connection gracefully. '
+        + 'Forcing disconnection...');
+      this._redisClient.end(true);
+    }
+    this._logger.info('Disconnected from REDIS');
+  }
+
   async updateCount(body) {
     // Assuming body is well-formed
     const { timestamp, ip } = body;
@@ -22,7 +34,7 @@ class VisitorsCounter {
 
     // Use HyperLogLog data structure to perform stream unique counts
     try {
-      await this._redisClient.sendCommand(['PFADD', 'unique-visitors', ip]);
+      await this._redisClient.sendCommand(['PFADD', this._hllName, ip]);
       this._logger.trace({ timestamp, ip }, `Added '${ip}' to HLL data structure`);
       payload = { msg: 'done' };
     } catch (err) {
@@ -39,7 +51,7 @@ class VisitorsCounter {
     let payload;
 
     try {
-      const count = await this._redisClient.sendCommand(['PFCOUNT', 'unique-visitors']);
+      const count = await this._redisClient.sendCommand(['PFCOUNT', this._hllName]);
       payload = count;
     } catch (err) {
       this._logger.error({ err }, 'An error occurred while counting unique visitors from redis');
