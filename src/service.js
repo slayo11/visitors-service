@@ -52,7 +52,7 @@ class VisitorsCounter {
 
     try {
       const count = await this._redisClient.sendCommand(['PFCOUNT', this._hllName]);
-      payload = count;
+      payload = { visitors: count };
     } catch (err) {
       this._logger.error({ err }, 'An error occurred while counting unique visitors from redis');
       statusCode = 500;
