@@ -4,8 +4,10 @@
   "description": "Visitors counter challenge",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src",
     "start": "node src/index.js",
-    "test": "npm run lint && npm run unit"
+    "test": "npm run lint && npm run unit",
+    "unit": "echo 'TODO: Bonus for writing unit tests!'"
   },
   "author": "Cataldo Calò <cataldo.calo@gmail.com>",
   "license": "ISC",
